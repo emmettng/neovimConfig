@@ -1,13 +1,52 @@
+" The next is unique in Epoque ubunto 16.04
 let g:coc_node_path = '/usr/local/n/versions/node/13.0.1/bin/node'
+let g:LanguageClient_rootMarkers = ['*.cabal', 'stack.yaml']
+let g:LanguageClient_serverCommands = {
+    \ 'rust': ['rls'],
+    \ 'haskell': ['ghcide', '--lsp'],
+    \ }
 
 call plug#begin('~/.local/share/nvim/plugged')
 
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
 Plug 'neovimhaskell/haskell-vim'
 Plug 'alx741/vim-hindent' 
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
+    \ }
+
+" (Optional) Multi-entry selection UI.
+Plug 'junegunn/fzf'
+
+" others' gvolpe/vim-setup
+Plug 'vim-airline/vim-airline'                                    " bottom status bar
+Plug 'vim-airline/vim-airline-themes'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } " fuzzy finder conf
+Plug 'junegunn/fzf.vim'                                           " fuzzy finder
+Plug 'scrooloose/nerdtree'                                        " folders tree
+Plug 'scrooloose/nerdcommenter'                                   " code commenter
+Plug 'jacoborus/tender.vim'                                       " my favorite theme so far :)
+Plug 'tpope/vim-surround'                                         " quickly edit surroundings (brackets, html tags, etc)
+Plug 'junegunn/vim-easy-align'                                    " alignment plugin
+Plug 'neomake/neomake'                                            " run programs asynchronously and highlight errors
+Plug 'Twinside/vim-hoogle'                                        " Hoogle search (Haskell) in Vim
+Plug 'ndmitchell/ghcid', { 'rtp': 'plugins/nvim' }                " ghcid for Haskell
+Plug 'Shougo/unite.vim'                                           " Required by some haskell plugins
+Plug 'ujihisa/unite-haskellimport'                                " Suggestions on imports
+Plug 'terryma/vim-multiple-cursors'                               " Multiple cursors selection, etc
+Plug 'itchyny/lightline.vim'                                      " configurable status line (can be used by coc)
+Plug 'jremmen/vim-ripgrep'                                        " blazing fast search using ripgrep
+Plug 'stefandtw/quickfix-reflector.vim'                           " make modifications right in the quickfix window
+Plug 'Xuyuanp/nerdtree-git-plugin'                                " shows files git status on the NerdTree
 
 call plug#end()
 
+au User lsp_setup call lsp#register_server({
+    \ 'name': 'ghcide',
+    \ 'cmd': {server_info->['/your/path/to/ghcide', '--lsp']},
+    \ 'whitelist': ['haskell'],
+    \ })
 
 " coc exmaple config below
 " if hidden is not set, TextEdit might fail.
@@ -60,6 +99,7 @@ nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
+nmap <leader> qf  <Plug>(coc-fix-current)
 
 " Use K to show documentation in preview window
 nnoremap <silent> K :call <SID>show_documentation()<CR>
