@@ -5,7 +5,6 @@ let g:LanguageClient_serverCommands = {
     \ 'rust': ['rls'],
     \ 'haskell': ['ghcide', '--lsp'],
     \ }
-
 call plug#begin('~/.local/share/nvim/plugged')
 
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
@@ -40,11 +39,13 @@ Plug 'jremmen/vim-ripgrep'                                        " blazing fast
 Plug 'stefandtw/quickfix-reflector.vim'                           " make modifications right in the quickfix window
 Plug 'Xuyuanp/nerdtree-git-plugin'                                " shows files git status on the NerdTree
 
+Plug 'prabirshrestha/async.vim'
+Plug 'prabirshrestha/vim-lsp'
 call plug#end()
 
 au User lsp_setup call lsp#register_server({
     \ 'name': 'ghcide',
-    \ 'cmd': {server_info->['/your/path/to/ghcide', '--lsp']},
+    \ 'cmd': {server_info->['/home/wh/.local/bin/ghcide', '--lsp']},
     \ 'whitelist': ['haskell'],
     \ })
 
